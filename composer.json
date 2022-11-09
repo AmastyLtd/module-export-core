@@ -7,9 +7,7 @@
     },
     "type": "magento2-module",
     "version": "1.6.7",
-    "license": [
-        "Commercial"
-    ],
+    "license": "proprietary",
     "autoload": {
         "files": [
             "registration.php"
