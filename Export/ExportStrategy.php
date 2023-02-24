@@ -17,6 +17,7 @@ use Amasty\ExportCore\Export\Config\EntityConfigProvider;
 use Amasty\ImportExportCore\Parallelization\JobManager;
 use Amasty\ImportExportCore\Parallelization\JobManagerFactory;
 use Amasty\ExportCore\Export\Parallelization\ResultMerger;
+use Amasty\ExportCore\Model\ConfigProvider;
 use Amasty\ExportCore\Model\Process\ProcessRepository;
 use Magento\Framework\App\State;
 use Magento\Framework\EntityManager\EventManager;
@@ -39,6 +40,11 @@ class ExportStrategy
      * @var ExportResultInterfaceFactory
      */
     private $exportResultFactory;
+
+    /**
+     * @var ConfigProvider
+     */
+    private $configProvider;
 
     /**
      * @var ProcessRepository
@@ -89,6 +95,7 @@ class ExportStrategy
         ExportResultInterfaceFactory $exportResultFactory,
         EventManager $eventManager,
         ObjectManagerInterface $objectManager,
+        ConfigProvider $configProvider,
         ProcessRepository $processRepository,
         JobManagerFactory $jobManagerFactory,
         ResultMerger $resultMerger,
@@ -100,6 +107,7 @@ class ExportStrategy
     ) {
         $this->objectManager = $objectManager;
         $this->exportResultFactory = $exportResultFactory;
+        $this->configProvider = $configProvider;
         $this->processRepository = $processRepository;
         $this->resultMerger = $resultMerger;
         $this->jobManagerFactory = $jobManagerFactory;
@@ -150,9 +158,25 @@ class ExportStrategy
                 return $exportResult;
             } catch (\Exception $e) {
                 $exportProcess->addCriticalMessage($e->getMessage());
+            } catch (\Throwable $e) {
+                    $writer = new \Zend_Log_Writer_Stream(BP .  '/' . ConfigProvider::DEBUG_LOG_PATH);
+                    $logger = new \Zend_Log();
+                    $logger->addWriter($writer);
+                    $logger->info($e->__toString());
+
+                if ($this->configProvider->isDebugEnabled()) {
+                    $exportProcess->addCriticalMessage($e->__toString());
+                } else {
+                    $exportProcess->addCriticalMessage(
+                        'An error occurred during the export process. '
+                        . 'For the error details please enable \'Debug Mode\' or see the '
+                        . ConfigProvider::DEBUG_LOG_PATH
+                    );
+                }
+                $exportProcess->getExportResult()->terminateExport(true);
+                break;
             }
         }
-
         $this->finalizeProcess($exportProcess);
 
         return $exportResult;
@@ -244,7 +268,7 @@ class ExportStrategy
             }
 
             if (!isset($action['sortOrder'])) {
-                new \LogicException('"sortOrder" is not specified for action "' . $actionCode . '"');
+                throw new \LogicException('"sortOrder" is not specified for action "' . $actionCode . '"');
             }
             $sortOrder = (int)$action['sortOrder'];
             if (!empty($action['entities']) && is_array($action['entities'])) {
@@ -287,7 +311,7 @@ class ExportStrategy
             }
 
             if (!isset($groupConfig['sortOrder'])) {
-                new \LogicException('"sortOrder" is not specified for action group "' . $groupCode . '"');
+                throw new \LogicException('"sortOrder" is not specified for action group "' . $groupCode . '"');
             }
 
             $sortOrder = (int)$groupConfig['sortOrder'];
