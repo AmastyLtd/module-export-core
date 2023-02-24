@@ -125,6 +125,7 @@ RESULT
         /** @var DestinationConfig $destinationConfig */
         $destinationConfig = $this->objectManager->create(DestinationConfig::class);
         $destinationConfig->setFilename('test_export');
+        $destinationConfig->setFilepath('/');
         $profileConfig->getExtensionAttributes()->setServerFileDestination($destinationConfig);
 
         /** @var Run $runner */
