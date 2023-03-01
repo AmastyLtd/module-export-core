@@ -6,7 +6,7 @@
         "amasty/module-import-export-core": ">=1.1.4"
     },
     "type": "magento2-module",
-    "version": "1.6.7",
+    "version": "1.7.0",
     "license": "proprietary",
     "autoload": {
         "files": [

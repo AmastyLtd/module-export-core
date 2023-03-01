@@ -36,8 +36,8 @@ class ReplaceFirst extends AbstractModifier implements FieldModifierInterface
         $position = strpos($value, $this->config['from_input_value']);
         if ($position !== false) {
             $value = substr_replace(
-                $value,
-                $replaceTo,
+                (string)$value,
+                (string)$replaceTo,
                 $position,
                 strlen($this->config['from_input_value'])
             );
