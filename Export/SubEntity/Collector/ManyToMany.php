@@ -98,21 +98,19 @@ class ManyToMany implements SubEntityCollectorInterface
                 'Child field or entity is not specified in relation ' . $config->getSubEntityFieldName()
             );
         }
-
         $this->metadataPool = $metadataPool;
-        if (isset($arguments[self::PARENT_ENTITY_NAME])) {
-            $this->parentFieldName = $this->getLinkField($arguments[self::PARENT_ENTITY_NAME]);
-        } else {
-            $this->parentFieldName = $arguments[self::PARENT_FIELD_NAME];
-        }
-        if (isset($arguments[self::CHILD_ENTITY_NAME])) {
-            $this->childFieldName = $this->getLinkField($arguments[self::CHILD_ENTITY_NAME]);
-        } else {
-            $this->childFieldName = $arguments[self::CHILD_FIELD_NAME];
-        }
+
+        $this->parentFieldName = isset($arguments[self::PARENT_ENTITY_NAME])
+            ? $this->getLinkField($arguments[self::PARENT_ENTITY_NAME])
+            : $arguments[self::PARENT_FIELD_NAME];
+        $this->childFieldName = isset($arguments[self::CHILD_ENTITY_NAME])
+            ? $this->getLinkField($arguments[self::CHILD_ENTITY_NAME])
+            : $arguments[self::CHILD_FIELD_NAME];
+        $this->connectParentFieldName = $this->getLinkField($arguments[self::CONNECT_PARENT_FIELD_NAME])
+            ?: $arguments[self::CONNECT_PARENT_FIELD_NAME];
+        $this->connectChildFieldName = $this->getLinkField($arguments[self::CONNECT_CHILD_FIELD_NAME])
+            ?: $arguments[self::CONNECT_CHILD_FIELD_NAME];
         $this->connectTableName = $arguments[self::CONNECT_TABLE_NAME];
-        $this->connectParentFieldName = $arguments[self::CONNECT_PARENT_FIELD_NAME];
-        $this->connectChildFieldName = $arguments[self::CONNECT_CHILD_FIELD_NAME];
         $this->collectionFactory = $collectionFactory;
         $this->config = $config;
         $this->prepareCollection = $prepareCollection;
@@ -191,6 +189,12 @@ class ManyToMany implements SubEntityCollectorInterface
 
     public function getLinkField($entityType): string
     {
-        return $this->metadataPool->getMetadata($entityType)->getLinkField();
+        try {
+            $entityMetadata = $this->metadataPool->getMetadata($entityType);
+        } catch (\Exception $e) {
+            return '';
+        }
+
+        return $entityMetadata->getLinkField();
     }
 }

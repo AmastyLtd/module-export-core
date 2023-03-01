@@ -269,6 +269,7 @@
     <preference for="Amasty\ExportCore\Api\Config\Relation\RelationInterface" type="Amasty\ExportCore\Export\SubEntity\Relation\RelationConfig"/>
 
     <preference for="Amasty\ExportCore\Api\Config\Entity\FieldsConfigInterface" type="Amasty\ExportCore\Export\Config\Entity\FieldsConfig" />
+    <preference for="Amasty\ExportCore\Export\Config\Entity\RelationEntityCodeResolverInterface" type="Amasty\ExportCore\Export\Config\Entity\RelationEntityCodeResolver" />
     <preference for="Amasty\ExportCore\Api\Config\Entity\Field\FieldInterface" type="Amasty\ExportCore\Export\Config\Entity\Field\Field" />
     <preference for="Amasty\ExportCore\Api\Config\Entity\Field\FilterInterface" type="Amasty\ExportCore\Export\Config\Entity\Field\Filter" />
     <preference for="Amasty\ExportCore\Api\Config\Entity\Field\ActionInterface" type="Amasty\ExportCore\Export\Config\Entity\Field\Action" />
