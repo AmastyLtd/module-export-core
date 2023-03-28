@@ -14,7 +14,6 @@ use Amasty\ImportExportCore\Utils\OptionsProcessor;
 use Magento\Eav\Model\Config as EavConfig;
 use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\Ui\Component\Form\Element\MultiSelect;
 
 class EavOptionValue2OptionLabel extends AbstractModifier implements FieldModifierInterface
 {
@@ -48,23 +47,33 @@ class EavOptionValue2OptionLabel extends AbstractModifier implements FieldModifi
      */
     private $optionsProcessor;
 
+    /**
+     * @var array
+     */
+    private $allowedFrontendInput;
+
     public function __construct(
         $config,
         EavConfig $eavConfig,
         ArgumentConverter $argumentConverter,
-        OptionsProcessor $optionsProcessor
+        OptionsProcessor $optionsProcessor,
+        array $allowedFrontendInput = []
     ) {
         parent::__construct($config);
         $this->eavConfig = $eavConfig;
-        $this->argumentConverter = $argumentConverter;
         $this->optionsProcessor = $optionsProcessor;
+        $this->argumentConverter = $argumentConverter;
+        $this->allowedFrontendInput = $allowedFrontendInput;
     }
 
     public function transform($value)
     {
         $map = $this->getMap();
         $attribute = $this->getEavAttribute();
-        if ($attribute && $attribute->getFrontendInput() === MultiSelect::NAME && !empty($value)) {
+        if ($attribute
+            && !empty($value)
+            && in_array($attribute->getFrontendInput(), $this->allowedFrontendInput)
+        ) {
             $multiSelectOptions = explode(',', $value);
             $result = [];
             foreach ($multiSelectOptions as $option) {

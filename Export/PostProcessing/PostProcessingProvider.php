@@ -37,4 +37,28 @@ class PostProcessingProvider
 
         return $this->objectManager->create($processorClass);
     }
+
+    /**
+     * @param array $profileProcessors postProcessors from profile
+     *
+     * @return array
+     */
+    public function getSortedPostProcessors(array $profileProcessors): array
+    {
+        $postProcessorsConfig = [];
+        foreach ($profileProcessors as $type) {
+            $postProcessorsConfig[] = $this->postProcessingConfig->get($type);
+        }
+        uasort($postProcessorsConfig, function ($first, $second) {
+            return $first['sortOrder'] <=> $second['sortOrder'];
+        });
+
+        $postProcessors = [];
+        foreach ($postProcessorsConfig as $config) {
+            $type = $config['code'];
+            $postProcessors[$type] = $this->getProcessor($type);
+        }
+
+        return $postProcessors;
+    }
 }

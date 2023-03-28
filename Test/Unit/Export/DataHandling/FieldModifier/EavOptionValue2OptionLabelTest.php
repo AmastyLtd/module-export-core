@@ -96,7 +96,10 @@ class EavOptionValue2OptionLabelTest extends TestCase
             [
                 'eavConfig' => $eavConfigMock,
                 'map' => $map,
-                'config' => $config
+                'config' => $config,
+                'allowedFrontendInput' => [
+                    MultiSelect::NAME
+                ]
             ]
         );
 

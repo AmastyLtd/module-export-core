@@ -120,7 +120,14 @@
 
     <type name="Amasty\ExportCore\Api\PostProcessing\PostProcessingConfigInterface">
         <arguments>
-            <argument name="postProcessingConfig" xsi:type="array"/>
+            <argument name="postProcessingConfig" xsi:type="array">
+                <item name="encoding" xsi:type="array">
+                    <item name="code" xsi:type="const">Amasty\ExportCore\Export\PostProcessing\Type\Encoding\Meta::TYPE_ID</item>
+                    <item name="processorClass" xsi:type="string">Amasty\ExportCore\Export\PostProcessing\Type\Encoding\Processor</item>
+                    <item name="metaClass" xsi:type="string">Amasty\ExportCore\Export\PostProcessing\Type\Encoding\Meta</item>
+                    <item name="sortOrder" xsi:type="number">10</item>
+                </item>
+            </argument>
         </arguments>
     </type>
 
@@ -269,6 +276,7 @@
     <preference for="Amasty\ExportCore\Api\Config\Relation\RelationInterface" type="Amasty\ExportCore\Export\SubEntity\Relation\RelationConfig"/>
 
     <preference for="Amasty\ExportCore\Api\Config\Entity\FieldsConfigInterface" type="Amasty\ExportCore\Export\Config\Entity\FieldsConfig" />
+    <preference for="Amasty\ExportCore\Export\Config\Entity\RelationEntityCodeResolverInterface" type="Amasty\ExportCore\Export\Config\Entity\RelationEntityCodeResolver" />
     <preference for="Amasty\ExportCore\Api\Config\Entity\Field\FieldInterface" type="Amasty\ExportCore\Export\Config\Entity\Field\Field" />
     <preference for="Amasty\ExportCore\Api\Config\Entity\Field\FilterInterface" type="Amasty\ExportCore\Export\Config\Entity\Field\Filter" />
     <preference for="Amasty\ExportCore\Api\Config\Entity\Field\ActionInterface" type="Amasty\ExportCore\Export\Config\Entity\Field\Action" />
@@ -283,6 +291,8 @@
     <preference for="Amasty\ExportCore\Export\Template\Type\Csv\ConfigInterface" type="Amasty\ExportCore\Export\Template\Type\Csv\Config"/>
     <preference for="Amasty\ExportCore\Export\Template\Type\Xml\ConfigInterface" type="Amasty\ExportCore\Export\Template\Type\Xml\Config"/>
 
+    <preference for="Amasty\ExportCore\Export\PostProcessing\Type\Encoding\ConfigInterface" type="Amasty\ExportCore\Export\PostProcessing\Type\Encoding\Config"/>
+
     <preference for="Amasty\ExportCore\Export\FileDestination\Type\ServerFile\ConfigInterface" type="Amasty\ExportCore\Export\FileDestination\Type\ServerFile\Config"/>
     <!-- Preferences End  -->
 
@@ -292,5 +302,14 @@
 
     <type name="Magento\Setup\Module\Di\App\Task\Operation\ProxyGenerator">
         <plugin name="Amasty_ExportCore::addFactories" type="Amasty\ExportCore\Plugin\GenerateFactories"/>
+    </type>
+
+    <type name="Amasty\ExportCore\Export\DataHandling\FieldModifier\EavOptionValue2OptionLabel">
+        <arguments>
+            <argument name="allowedFrontendInput" xsi:type="array">
+                <item name="checkboxes" xsi:type="string">checkboxes</item>
+                <item name="multiselect" xsi:type="const">Magento\Ui\Component\Form\Element\MultiSelect::NAME</item>
+            </argument>
+        </arguments>
     </type>
 </config>

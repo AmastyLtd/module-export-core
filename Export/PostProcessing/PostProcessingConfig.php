@@ -13,12 +13,7 @@ class PostProcessingConfig implements PostProcessingConfigInterface
 
     public function __construct(array $postProcessingConfig)
     {
-        foreach ($postProcessingConfig as $config) {
-            if (!isset($config['code'], $config['processorClass'])) {
-                throw new \LogicException('Export processor "' . $config['code'] . ' is not configured properly');
-            }
-            $this->postProcessingConfig[$config['code']] = $config;
-        }
+        $this->initializePostProcessingConfig($postProcessingConfig);
     }
 
     public function get(string $type): array
@@ -33,5 +28,22 @@ class PostProcessingConfig implements PostProcessingConfigInterface
     public function all(): array
     {
         return $this->postProcessingConfig;
+    }
+
+    private function initializePostProcessingConfig(array $postProcessingConfig): void
+    {
+        foreach ($postProcessingConfig as $config) {
+            if (!isset($config['code'], $config['processorClass'])) {
+                throw new \LogicException('Export processor "' . $config['code'] . ' is not configured properly');
+            }
+            if (!isset($config['sortOrder'])) {
+                $config['sortOrder'] = 0;
+            }
+            $this->postProcessingConfig[$config['code']] = $config;
+        }
+
+        uasort($this->postProcessingConfig, function ($first, $second) {
+            return $first['sortOrder'] <=> $second['sortOrder'];
+        });
     }
 }

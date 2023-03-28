@@ -30,7 +30,7 @@ class Modulo extends AbstractModifier implements FieldModifierInterface
             return $value;
         }
 
-        return (float)$value % (float)$this->config['input_value'];
+        return floor((float)$value) % floor((float)$this->config['input_value']);
     }
 
     public function getValue(ModifierInterface $modifier): array
