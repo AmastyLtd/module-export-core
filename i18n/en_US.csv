@@ -3,6 +3,7 @@
 "Something went wrong","Something went wrong"
 "Amasty Export","Amasty Export"
 Export,Export
+"The system process failed. For an error details please make sure that Debug mode is enabled and see %1","The system process failed. For an error details please make sure that Debug mode is enabled and see %1"
 "Process Started","Process Started"
 "Failed to deploy to destination ""%1"". Error ""%2"". Please check your log file for more details","Failed to deploy to destination ""%1"". Error ""%2"". Please check your log file for more details"
 "There are no export results","There are no export results"
@@ -34,6 +35,8 @@ Truncate,Truncate
 Prepend,Prepend
 Replace,Replace
 "Replace First","Replace First"
+"Replace Text Wrapping","Replace Text Wrapping"
+With,With
 "Convert Store Code To Store Id","Convert Store Code To Store Id"
 "Convert Store Id To Store Code","Convert Store Id To Store Code"
 "Strip Html Tags","Strip Html Tags"
@@ -90,10 +93,12 @@ Filter,Filter
 "Filter After Modifier Applied","Filter After Modifier Applied"
 "Please make sure the field with a corresponding modifier is added to the export file. Otherwise, the setting won't be applied.","Please make sure the field with a corresponding modifier is added to the export file. Otherwise, the setting won't be applied."
 "Additional Actions","Additional Actions"
+"Can't build Ui Component configuration for %1 post processor: No meta given","Can't build Ui Component configuration for %1 post processor: No meta given"
 "Wrong post processor form class: %1","Wrong post processor form class: %1"
 "Export Template","Export Template"
 "File Type","File Type"
 "Wrong template form class: %1","Wrong template form class: %1"
+"Output File Encoding","Output File Encoding"
 "NOT LOGGED IN","NOT LOGGED IN"
 "ALL GROUPS","ALL GROUPS"
 "Add Header Row","Add Header Row"
@@ -142,6 +147,11 @@ Add,Add
 "The 'Multi-Process Export' feature requires the PHP extension 'pcntl' to be installed on the server. If you enable the feature and no performance boost happens, please ask your hoster/system administrator to check if the 'pcntl' extension is installed.","The 'Multi-Process Export' feature requires the PHP extension 'pcntl' to be installed on the server. If you enable the feature and no performance boost happens, please ask your hoster/system administrator to check if the 'pcntl' extension is installed."
 "Number of Parallel Processes","Number of Parallel Processes"
 "The more parallel processes are set, the faster the export process goes, but the higher the server loads.","The more parallel processes are set, the faster the export process goes, but the higher the server loads."
+Advanced,Advanced
+"Enable Debug Mode","Enable Debug Mode"
+"Enabling this setting will allow detecting errors and display detailed information about them including server errors. Also useful error information can be found in var/log/amasty_export_debug.log.","Enabling this setting will allow detecting errors and display detailed information about them including server errors. Also useful error information can be found in var/log/amasty_export_debug.log."
+"Enable Export without Memory Limit","Enable Export without Memory Limit"
+"Enable this setting if export process terminates because of the memory limit exceed.","Enable this setting if export process terminates because of the memory limit exceed."
 "System Settings","System Settings"
 "CLI PHP Path","CLI PHP Path"
 "Current CLI PHP path of your Magento which is used by our extension when running the commands directly during the processing of PHP requests. To change it, please run bin/magento config:set amasty_base/system/cli_php_path %CLI_PHP_PATH% from the command line.","Current CLI PHP path of your Magento which is used by our extension when running the commands directly during the processing of PHP requests. To change it, please run bin/magento config:set amasty_base/system/cli_php_path %CLI_PHP_PATH% from the command line."

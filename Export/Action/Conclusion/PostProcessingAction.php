@@ -29,8 +29,9 @@ class PostProcessingAction implements ActionInterface
 
     public function initialize(ExportProcessInterface $exportProcess)
     {
-        foreach ($exportProcess->getProfileConfig()->getPostProcessors() ?? [] as $type) {
-            $this->processors[$type] = $this->postProcessingProvider->getProcessor($type);
+        $profileProcessors = $exportProcess->getProfileConfig()->getPostProcessors() ?? [];
+        if ($profileProcessors) {
+            $this->processors = $this->postProcessingProvider->getSortedPostProcessors($profileProcessors);
         }
     }
 

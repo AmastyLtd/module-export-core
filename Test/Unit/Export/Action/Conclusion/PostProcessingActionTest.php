@@ -54,17 +54,16 @@ class PostProcessingActionTest extends TestCase
 
     /**
      * @param array|null $postProcessors
-     * @param string|null $process
      * @dataProvider initializeDataProvider
      */
-    public function testInitialize(?array $postProcessors, ?string $process): void
+    public function testInitialize(?array $postProcessors): void
     {
-        $this->initInitialize($postProcessors, $process);
+        $this->initInitialize($postProcessors);
 
         $this->postProcessingAction->initialize($this->exportProcessInterfaceMock);
     }
 
-    private function initInitialize(?array $postProcessors, ?string $process): void
+    private function initInitialize(?array $postProcessors): void
     {
         $this->exportProcessInterfaceMock->expects($this->once())
             ->method('getProfileConfig')
@@ -74,9 +73,9 @@ class PostProcessingActionTest extends TestCase
             ->willReturn($postProcessors);
         if ($postProcessors) {
             $this->postProcessingProviderMock->expects($this->once())
-                ->method('getProcessor')
-                ->with($process)
-                ->willReturn($this->processorInterfaceMock);
+                ->method('getSortedPostProcessors')
+                ->with($postProcessors)
+                ->willReturn([$this->processorInterfaceMock]);
         }
     }
 
@@ -88,9 +87,8 @@ class PostProcessingActionTest extends TestCase
     public function testExecuteWithProcessors(): void
     {
         $postProcessors = ['processor_type'];
-        $process = 'processor_type';
 
-        $this->initInitialize($postProcessors, $process);
+        $this->initInitialize($postProcessors);
         $this->postProcessingAction->initialize($this->exportProcessInterfaceMock);
 
         $this->processorInterfaceMock->expects($this->once())
@@ -109,8 +107,8 @@ class PostProcessingActionTest extends TestCase
     public function initializeDataProvider(): array
     {
         return [
-            'processorsExist' => [['processor_type'], 'processor_type'],
-            'noProcessors' => [null, null]
+            'processorsExist' => [['processor_type']],
+            'noProcessors' => [null]
         ];
     }
 }

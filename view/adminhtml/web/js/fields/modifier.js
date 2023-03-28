@@ -48,7 +48,7 @@ define([
 
         renderFields: function () {
             var name = this.name + '.value',
-                value = this.modifierValue || {},
+                value = this.getInitValue(),
                 componentData = utils.extend(value, {
                     'parentName': this.name,
                     'provider': this.provider,
@@ -65,6 +65,16 @@ define([
 
             layout([componentData]);
             this.insertChild(name);
+        },
+
+        getInitValue: function () {
+            if (this.additionalData && this.additionalData.default) {
+                if (this.modifierValue && !this.modifierValue.input_value) {
+                    this.modifierValue.input_value = this.additionalData.default;
+                }
+            }
+
+            return this.modifierValue || {};
         },
 
         getModifierTypeSelected: function (value) {
@@ -88,7 +98,7 @@ define([
             this.childTemplate = this.modifierConfig[option.value].childTemplate || null;
             this.childComponent = this.modifierConfig[option.value].childComponent || null;
             //additional data that can be used in templates
-            this.additionalData = this.modifierConfig[option.value].additionalData || null;
+            this.additionalData = this.modifierConfig[option.value].additionalData || {};
             this.eavEntityType(this.selectedOption().eavEntityType);
             this.optionSource(this.selectedOption().optionSource);
 

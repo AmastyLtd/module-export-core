@@ -6,6 +6,7 @@ namespace Amasty\ExportCore\Export\Action\Export\PostFilter;
 use Amasty\ExportCore\Api\ActionInterface;
 use Amasty\ExportCore\Api\Config\Profile\FieldsConfigInterface;
 use Amasty\ExportCore\Api\ExportProcessInterface;
+use Amasty\ExportCore\Export\Config\Entity\RelationEntityCodeResolverInterface;
 use Amasty\ExportCore\Export\Filter\EntityFiltersProvider;
 
 class FilteringAction implements ActionInterface
@@ -15,10 +16,17 @@ class FilteringAction implements ActionInterface
      */
     private $entityFiltersProvider;
 
+    /**
+     * @var RelationEntityCodeResolverInterface
+     */
+    private $entityCodeResolver;
+
     public function __construct(
-        EntityFiltersProvider $entityFiltersProvider
+        EntityFiltersProvider $entityFiltersProvider,
+        RelationEntityCodeResolverInterface $entityCodeResolver
     ) {
         $this->entityFiltersProvider = $entityFiltersProvider;
+        $this->entityCodeResolver = $entityCodeResolver;
     }
 
     //phpcs:ignore Magento2.CodeAnalysis.EmptyBlock.DetectedFunction
@@ -39,7 +47,7 @@ class FilteringAction implements ActionInterface
     private function applyFilters(
         array &$data,
         FieldsConfigInterface $fieldsConfig,
-        string $entityCode = ''
+        ?string $entityCode = ''
     ): void {
         if (!$entityCode) {
             $entityCode = $fieldsConfig->getName();
@@ -64,7 +72,8 @@ class FilteringAction implements ActionInterface
                 foreach ($subEntitiesFieldsConfig as $config) {
                     $subEntityName = $config->getName();
                     if (isset($row[$subEntityName])) {
-                        $this->applyFilters($row[$subEntityName], $config);
+                        $childEntityCode = $this->entityCodeResolver->resolve($config->getName(), $entityCode);
+                        $this->applyFilters($row[$subEntityName], $config, $childEntityCode);
                         if (empty($row[$subEntityName]) && $config->isExcludeRowIfNoResultsFound()) {
                             unset($data[$index]);
                             continue 2;

@@ -31,6 +31,7 @@ class ModifierProvider
         \Amasty\ExportCore\Export\DataHandling\FieldModifier\Strip::class,
         \Amasty\ExportCore\Export\DataHandling\FieldModifier\Replace::class,
         \Amasty\ExportCore\Export\DataHandling\FieldModifier\ReplaceFirst::class,
+        \Amasty\ExportCore\Export\DataHandling\FieldModifier\ReplaceTextWrapping::class,
         \Amasty\ExportCore\Export\DataHandling\FieldModifier\DefaultValue::class,
 
         // numeric
@@ -120,6 +121,11 @@ class ModifierProvider
     private function getEntityModifiersByGroups(EntityConfigInterface $entityConfig, string $fieldName): array
     {
         $entityModifiers = $this->getEntityFieldModifiers($entityConfig, $fieldName);
+        foreach ($entityModifiers as $key => $modifierData) {
+            if (in_array($modifierData['value'], $this->defaultModifiers)) {
+                unset($entityModifiers[$key]);
+            }
+        }
 
         return [
             'label' => __('Custom Modifiers')->getText(),

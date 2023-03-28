@@ -8,6 +8,7 @@ use Amasty\ExportCore\Api\Config\Profile\FieldsConfigInterface;
 use Amasty\ExportCore\Api\Config\ProfileConfigExtensionInterface;
 use Amasty\ExportCore\Api\Config\ProfileConfigInterface;
 use Amasty\ExportCore\Api\Config\ProfileConfigExtensionInterfaceFactory;
+use Amasty\ExportCore\Export\PostProcessing\Type\Encoding\ConfigInterface as EncodingConfigInterface;
 use Magento\Framework\DataObject;
 
 class ProfileConfig extends DataObject implements ProfileConfigInterface

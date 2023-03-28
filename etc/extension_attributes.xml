@@ -6,6 +6,8 @@
         <attribute code="xml_template" type="Amasty\ExportCore\Export\Template\Type\Xml\ConfigInterface" />
 
         <attribute code="server_file_destination" type="Amasty\ExportCore\Export\FileDestination\Type\ServerFile\ConfigInterface" />
+
+        <attribute code="encoding" type="string" />
     </extension_attributes>
 
     <extension_attributes for="Amasty\ExportCore\Api\Config\Profile\FieldFilterInterface">
