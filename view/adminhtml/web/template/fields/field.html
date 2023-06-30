@@ -18,13 +18,12 @@
                         <input class="amexportcore-field -disabled"
                                data-amexportcore-js="code"
                                type="text"
-                               data-bind="value: $data.code, disable: !$data.isStatic">
+                               data-bind="value: $data.code, disable: !$data.isStatic"></input>
                     </td>
                     <td class="amexportcore-td -name">
                         <input class="amexportcore-field" type="text" data-bind="
-                                                                    attr: {name: 'amexportcore-file-field[' + $data.code() + ']'},
                                                                     value: $data.output_value,
-                                                                    valueUpdate: 'afterkeydown'">
+                                                                    valueUpdate: 'afterkeydown'"></input>
                     </td>
                     <td class="amexportcore-td -button">
                         <span class="amexportcore-delete" data-bind="click: $data.remove.bind($data, $data.index, $index())"></span>

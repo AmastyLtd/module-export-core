@@ -6,7 +6,6 @@ namespace Amasty\ExportCore\Export\Filter\Type\Store;
 
 use Amasty\ExportCore\Api\Config\Profile\FieldFilterInterface;
 use Amasty\ExportCore\Api\Filter\FilterInterface;
-use Amasty\ExportCore\Export\Filter\Type\Select\ConfigInterface;
 use Amasty\ExportCore\Export\Filter\Utils\AfterFilterApplier;
 use Magento\Framework\Data\Collection;
 use Magento\Store\Api\StoreRepositoryInterface;

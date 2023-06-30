@@ -53,9 +53,9 @@ class FieldsConfig extends DataObject implements \Amasty\ExportCore\Api\Config\P
         return $this;
     }
 
-    public function getFields(): ?array
+    public function getFields(): array
     {
-        return $this->getData(self::FIELDS);
+        return $this->getData(self::FIELDS) ?? [];
     }
 
     public function setFields(?array $fields): FieldsConfigInterface
