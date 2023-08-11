@@ -2,6 +2,12 @@
 
 declare(strict_types=1);
 
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Export Core for Magento 2 (System)
+ */
+
 namespace Amasty\ExportCore\Processing;
 
 use Amasty\ExportCore\Api\Config\ProfileConfigInterface;
@@ -89,13 +95,14 @@ class JobManager
             $redirectOutput = ' > /dev/null';
         }
 
-        $this->shell->execute(
-            $phpPath . $memoryLimit . ' %s amasty:export:run-job %s' . $redirectOutput . ' &',
+        $pid = $this->shell->execute(
+            $phpPath . $memoryLimit . ' %s amasty:export:run-job %s' . $redirectOutput . ' & echo $!',
             [
                 BP . '/bin/magento',
                 $identity
             ]
         );
+        $this->processRepository->updateProcessPid($identity, (int)$pid);
 
         return $this->jobWatcherFactory->create(['processIdentity' => $identity]);
     }

@@ -2,11 +2,18 @@
 
 declare(strict_types=1);
 
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Export Core for Magento 2 (System)
+ */
+
 namespace Amasty\ExportCore\Export\Filter\Type\Date;
 
 use Amasty\ExportCore\Api\Config\Profile\FieldFilterInterface;
 use Amasty\ExportCore\Api\Filter\FilterInterface;
 use Amasty\ExportCore\Export\Filter\Utils\AfterFilterApplier;
+use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Data\Collection;
 use Magento\Framework\Stdlib\DateTime\DateTime;
 
@@ -29,14 +36,22 @@ class Filter implements FilterInterface
      */
     private $dateTime;
 
+    /**
+     * @var AfterFilterConditionConverter
+     */
+    private $afterFilterConditionConverter;
+
     public function __construct(
         ConditionConverter $conditionConverter,
         AfterFilterApplier $afterFilterApplier,
-        DateTime $dateTime
+        DateTime $dateTime,
+        AfterFilterConditionConverter $afterFilterConditionConverter = null
     ) {
         $this->conditionConverter = $conditionConverter;
         $this->afterFilterApplier = $afterFilterApplier;
         $this->dateTime = $dateTime;
+        $this->afterFilterConditionConverter =
+            $afterFilterConditionConverter ?? ObjectManager::getInstance()->get(AfterFilterConditionConverter::class);
     }
 
     public function apply(Collection $collection, FieldFilterInterface $filter)
@@ -64,11 +79,10 @@ class Filter implements FilterInterface
             return false;
         }
 
-        $condition = $this->conditionConverter->convert(
+        $condition = $this->afterFilterConditionConverter->convert(
             $filter->getCondition(),
             $config->getValue()
         );
-        $condition[$filter->getCondition()] = $this->dateTime->gmtTimestamp($condition[$filter->getCondition()]);
 
         return $this->afterFilterApplier->apply($condition, $value, null);
     }

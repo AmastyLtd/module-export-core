@@ -3,8 +3,6 @@
 "Something went wrong","Something went wrong"
 "Amasty Export","Amasty Export"
 Export,Export
-"The system process failed. For an error details please make sure that Debug mode is enabled and see %1","The system process failed. For an error details please make sure that Debug mode is enabled and see %1"
-"Process Started","Process Started"
 "Failed to deploy to destination ""%1"". Error ""%2"". Please check your log file for more details","Failed to deploy to destination ""%1"". Error ""%2"". Please check your log file for more details"
 "There are no export results","There are no export results"
 "Entity ""%1"" already exists.","Entity ""%1"" already exists."
@@ -123,6 +121,9 @@ Footer,Footer
 "Process with specified identity ""%1"" not found.","Process with specified identity ""%1"" not found."
 "Unable to remove batch with ID %1. Error: %2","Unable to remove batch with ID %1. Error: %2"
 "Unable to remove batch. Error: %1","Unable to remove batch. Error: %1"
+"Process Started","Process Started"
+"The export process failed to launch. Please, check your PHP executable path or see log for more details.","The export process failed to launch. Please, check your PHP executable path or see log for more details."
+"The system process failed. For an error details please make sure that Debug mode is enabled and see %1","The system process failed. For an error details please make sure that Debug mode is enabled and see %1"
 Continue,Continue
 Download,Download
 "Regenerate File","Regenerate File"

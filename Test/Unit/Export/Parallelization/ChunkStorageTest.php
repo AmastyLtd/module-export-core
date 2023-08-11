@@ -2,6 +2,12 @@
 
 declare(strict_types=1);
 
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Export Core for Magento 2 (System)
+ */
+
 namespace Amasty\ExportCore\Test\Unit\Export\Parallelization;
 
 use Amasty\ExportCore\Export\Parallelization\ChunkStorage;
@@ -38,16 +44,16 @@ class ChunkStorageTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->processIdentity = 'string';
+        $processIdentity = 'string';
         $this->tmpMock = $this->createMock(TmpFileManagement::class);
         $this->tempDirectoryMock = $this->createMock(DirectoryWriteInterface::class);
         $this->tempFileMock = $this->createMock(FileWriteInterface::class);
         $this->tmpMock->expects($this->once())
             ->method('getTempDirectory')
-            ->with($this->processIdentity)
+            ->with($processIdentity)
             ->willReturn($this->tempDirectoryMock);
 
-        $this->chunkStorage = new ChunkStorage($this->tmpMock, $this->processIdentity);
+        $this->chunkStorage = new ChunkStorage($this->tmpMock, $processIdentity);
     }
 
     public function testSaveChunk()
