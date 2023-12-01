@@ -11,7 +11,9 @@ use Amasty\ExportCore\Api\Config\Profile\FieldsConfigInterface;
 use Amasty\ExportCore\Export\Config\EntityConfigProvider;
 use Amasty\ExportCore\Export\Config\RelationConfigProvider;
 use Amasty\ExportCore\Export\Filter\EntityFiltersProvider;
+use Amasty\ExportCore\Export\Filter\Utils\RestrictedStoresFiltersApplier;
 use Amasty\ExportCore\Export\SubEntity\CollectorFactory;
+use Magento\Framework\App\ObjectManager;
 use Magento\Framework\App\ResourceConnection\SourceProviderInterface;
 use Magento\Framework\Data\Collection;
 
@@ -37,16 +39,24 @@ class PrepareCollection
      */
     private $entityFiltersProvider;
 
+    /**
+     * @var RestrictedStoresFiltersApplier
+     */
+    private $restrictedStoresFiltersApplier;
+
     public function __construct(
         EntityConfigProvider $entityConfigProvider,
         RelationConfigProvider $relationConfigProvider,
         CollectorFactory $collectorFactory,
-        EntityFiltersProvider $entityFiltersProvider
+        EntityFiltersProvider $entityFiltersProvider,
+        RestrictedStoresFiltersApplier $restrictedStoresFiltersApplier
     ) {
         $this->entityConfigProvider = $entityConfigProvider;
         $this->collectorFactory = $collectorFactory;
         $this->relationConfigProvider = $relationConfigProvider;
         $this->entityFiltersProvider = $entityFiltersProvider;
+        $this->restrictedStoresFiltersApplier = $restrictedStoresFiltersApplier
+            ?? ObjectManager::getInstance()->get(RestrictedStoresFiltersApplier::class);
     }
 
     public function execute(Collection $collection, string $entityCode, FieldsConfigInterface $fieldsConfig)
@@ -55,6 +65,7 @@ class PrepareCollection
             $this->addFieldsToSelect($collection, $entityCode, $fieldsConfig->getFields());
             $this->addSubentityRequiredFields($collection, $entityCode);
         }
+        $this->restrictedStoresFiltersApplier->apply($entityCode, $fieldsConfig);
         $this->applyFilters($collection, $entityCode, $fieldsConfig);
     }
 

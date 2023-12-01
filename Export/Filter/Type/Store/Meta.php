@@ -10,7 +10,9 @@ namespace Amasty\ExportCore\Export\Filter\Type\Store;
 use Amasty\ExportCore\Api\Config\Entity\Field\FieldInterface;
 use Amasty\ExportCore\Api\Config\Profile\FieldFilterInterface;
 use Amasty\ExportCore\Api\Filter\FilterMetaInterface;
+use Amasty\ExportCore\Model\ThirdParty\GwsAdapter;
 use Magento\Cms\Ui\Component\Listing\Column\Cms\Options;
+use Magento\Framework\App\ObjectManager;
 
 class Meta implements FilterMetaInterface
 {
@@ -24,23 +26,28 @@ class Meta implements FilterMetaInterface
      */
     private $options;
 
+    /**
+     * @var GwsAdapter|null
+     */
+    private $gwsAdapter;
+
     public function __construct(
         ConfigInterfaceFactory $configFactory,
-        Options $options
+        Options $options,
+        GwsAdapter $gwsAdapter = null
     ) {
         $this->configFactory = $configFactory;
         $this->options = $options;
+        $this->gwsAdapter = $gwsAdapter ?? ObjectManager::getInstance()->get(GwsAdapter::class);
     }
 
     public function getJsConfig(FieldInterface $field): array
     {
-        $options = $this->options->toOptionArray();
-        if (empty($options)) {
-            return [];
-        }
-
+        $options = $this->getOptions();
         foreach ($options as &$option) {
-            $option['value'] = !is_array($option['value']) ? (string)$option['value'] : $option['value'];
+            $option['value'] = !is_array($option['value'])
+                ? (string)$option['value']
+                : $option['value'];
         }
 
         return [
@@ -76,5 +83,22 @@ class Meta implements FilterMetaInterface
         }
 
         return null;
+    }
+
+    private function getOptions(): array
+    {
+        $options = $this->options->toOptionArray();
+        if (empty($options)) {
+            return [];
+        }
+
+        $removeAllStoreViews = $this->gwsAdapter->getRole() && !$this->gwsAdapter->getRole()->getIsAll();
+        if ($removeAllStoreViews) {
+            $options = array_filter($options, static function ($option) {
+                return $option['value'] !== '0';
+            });
+        }
+
+        return $options;
     }
 }

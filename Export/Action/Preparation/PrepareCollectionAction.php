@@ -14,6 +14,8 @@ use Amasty\ExportCore\Api\ActionInterface;
 use Amasty\ExportCore\Api\ExportProcessInterface;
 use Amasty\ExportCore\Export\Action\Preparation\Collection\Factory as CollectionPrepareFactory;
 use Amasty\ExportCore\Export\Action\Preparation\Collection\PrepareCollection;
+use Amasty\ExportCore\Export\Filter\Utils\RestrictedStoresFiltersApplier;
+use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Exception\LocalizedException;
 
 class PrepareCollectionAction implements ActionInterface
@@ -30,12 +32,20 @@ class PrepareCollectionAction implements ActionInterface
      */
     private $prepareCollection;
 
+    /**
+     * @var RestrictedStoresFiltersApplier|null
+     */
+    private $restrictedStoresFiltersApplier;
+
     public function __construct(
         CollectionPrepareFactory $collectionFactory,
-        PrepareCollection $prepareCollection
+        PrepareCollection $prepareCollection,
+        RestrictedStoresFiltersApplier $restrictedStoresFiltersApplier = null
     ) {
         $this->collectionFactory = $collectionFactory;
         $this->prepareCollection = $prepareCollection;
+        $this->restrictedStoresFiltersApplier = $restrictedStoresFiltersApplier
+            ?? ObjectManager::getInstance()->get(RestrictedStoresFiltersApplier::class);
     }
 
     public function initialize(ExportProcessInterface $exportProcess)
@@ -46,14 +56,17 @@ class PrepareCollectionAction implements ActionInterface
     public function execute(ExportProcessInterface $exportProcess)
     {
         $collection = $exportProcess->getCollection();
+        $profile = $exportProcess->getProfileConfig();
         $collection->setPageSize(
-            $exportProcess->getProfileConfig()->getBatchSize() ?: self::DEFAULT_BATCH_SIZE
+            $profile->getBatchSize() ?: self::DEFAULT_BATCH_SIZE
         );
+        $this->restrictedStoresFiltersApplier->setStoreIds((string)$profile->getAllowedStoreIds());
         $this->prepareCollection->execute(
             $collection,
-            $exportProcess->getProfileConfig()->getEntityCode(),
-            $exportProcess->getProfileConfig()->getFieldsConfig()
+            $profile->getEntityCode(),
+            $profile->getFieldsConfig()
         );
+
         $exportProcess->getExportResult()->setTotalRecords($collection->getSize());
         if (!$exportProcess->getExportResult()->getTotalRecords()) {
             throw new LocalizedException(__('There are no export results'));

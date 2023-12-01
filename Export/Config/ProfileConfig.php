@@ -14,7 +14,8 @@ use Amasty\ExportCore\Api\Config\Profile\FieldsConfigInterface;
 use Amasty\ExportCore\Api\Config\ProfileConfigExtensionInterface;
 use Amasty\ExportCore\Api\Config\ProfileConfigInterface;
 use Amasty\ExportCore\Api\Config\ProfileConfigExtensionInterfaceFactory;
-use Amasty\ExportCore\Export\PostProcessing\Type\Encoding\ConfigInterface as EncodingConfigInterface;
+use Amasty\ExportCore\Model\ThirdParty\GwsAdapter;
+use Magento\Framework\App\ObjectManager;
 use Magento\Framework\DataObject;
 
 class ProfileConfig extends DataObject implements ProfileConfigInterface
@@ -30,22 +31,38 @@ class ProfileConfig extends DataObject implements ProfileConfigInterface
     public const POST_PROCESSORS = 'post_processors';
     public const FIELDS_CONFIG = 'fields_config';
     public const MODULE_TYPE = 'module_type';
+    public const ALLOWED_STORE_IDS = 'allowed_store_ids';
 
     /**
      * @var ProfileConfigExtensionInterfaceFactory
      */
     private $extensionAttributesFactory;
 
+    /**
+     * @var GwsAdapter
+     */
+    private $gwsAdapter;
+
     public function __construct(
         ProfileConfigExtensionInterfaceFactory $extensionAttributesFactory,
-        array $data = []
+        array $data = [],
+        GwsAdapter $gwsAdapter = null
     ) {
         parent::__construct($data);
         $this->extensionAttributesFactory = $extensionAttributesFactory;
+        $this->gwsAdapter = $gwsAdapter ?? ObjectManager::getInstance()->get(GwsAdapter::class);
     }
 
     public function initialize(): ProfileConfigInterface
     {
+        if (($gwsRole = $this->gwsAdapter->getRole()) && !$this->getAllowedStoreIds()) {
+            $this->setAllowedStoreIds(
+                !$gwsRole->getIsAll()
+                    ? implode(',', $gwsRole->getStoreIds())
+                    : '0'
+            );
+        }
+
         return $this;
     }
 
@@ -194,6 +211,18 @@ class ProfileConfig extends DataObject implements ProfileConfigInterface
         ProfileConfigExtensionInterface $extensionAttributes
     ): ProfileConfigInterface {
         $this->setData(self::EXTENSION_ATTRIBUTES_KEY, $extensionAttributes);
+
+        return $this;
+    }
+
+    public function getAllowedStoreIds(): ?string
+    {
+        return $this->getData(self::ALLOWED_STORE_IDS);
+    }
+
+    public function setAllowedStoreIds(?string $allowedStoreIds): ProfileConfigInterface
+    {
+        $this->setData(self::ALLOWED_STORE_IDS, $allowedStoreIds);
 
         return $this;
     }

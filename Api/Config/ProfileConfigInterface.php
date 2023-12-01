@@ -163,4 +163,16 @@ interface ProfileConfigInterface extends \Magento\Framework\Api\ExtensibleDataIn
     public function setExtensionAttributes(
         \Amasty\ExportCore\Api\Config\ProfileConfigExtensionInterface $extensionAttributes
     ): ProfileConfigInterface;
+
+    /**
+     * @return string
+     */
+    public function getAllowedStoreIds(): ?string;
+
+    /**
+     * @param string $allowedStoreIds
+     *
+     * @return \Amasty\ExportCore\Api\Config\ProfileConfigInterface
+     */
+    public function setAllowedStoreIds(?string $allowedStoreIds): ProfileConfigInterface;
 }
