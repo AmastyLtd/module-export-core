@@ -10,15 +10,15 @@ declare(strict_types=1);
 
 namespace Amasty\ExportCore\Export\DataHandling\FieldModifier\Number;
 
-use Amasty\ExportCore\Api\FieldModifier\FieldModifierInterface;
-use Amasty\ExportCore\Export\DataHandling\AbstractModifier;
 use Amasty\ExportCore\Export\DataHandling\ModifierProvider;
 
-class Ceil extends AbstractModifier implements FieldModifierInterface
+class Ceil extends AbstractNumberModifier
 {
     public function transform($value)
     {
-        return ceil($value);
+        $this->validateInput($value);
+
+        return ceil((float)$value);
     }
 
     public function getGroup(): string

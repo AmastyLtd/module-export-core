@@ -17,9 +17,11 @@ Capitalize,Capitalize
 "Attribute Id To Code","Attribute Id To Code"
 "Option Value To Option Label","Option Value To Option Label"
 Explode,Explode
+"Full Match Replace","Full Match Replace"
 "Lower Case","Lower Case"
 Map,Map
 "Absolute Value","Absolute Value"
+"The numeric modifier '%1' cannot be applied to string values, please validate your data.","The numeric modifier '%1' cannot be applied to string values, please validate your data."
 Ceil,Ceil
 "Divided By","Divided By"
 Floor,Floor
@@ -63,6 +65,7 @@ is,is
 "last X weeks","last X weeks"
 "Enter one value per line.","Enter one value per line."
 like,like
+"not like","not like"
 "is one of","is one of"
 "is not one of","is not one of"
 label,label
@@ -138,7 +141,6 @@ Modifier,Modifier
 "Field Name in Export File","Field Name in Export File"
 Action,Action
 "Static Field Value","Static Field Value"
-"Add Static Field","Add Static Field"
 "-- Please Select --","-- Please Select --"
 Search,Search
 Add,Add

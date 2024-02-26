@@ -10,15 +10,15 @@ declare(strict_types=1);
 
 namespace Amasty\ExportCore\Export\DataHandling\FieldModifier\Number;
 
-use Amasty\ExportCore\Api\FieldModifier\FieldModifierInterface;
-use Amasty\ExportCore\Export\DataHandling\AbstractModifier;
 use Amasty\ExportCore\Export\DataHandling\ModifierProvider;
 
-class Truncate extends AbstractModifier implements FieldModifierInterface
+class Truncate extends AbstractNumberModifier
 {
     public function transform($value)
     {
-        return floor($value);
+        $this->validateInput($value);
+
+        return floor((float)$value);
     }
 
     public function getGroup(): string

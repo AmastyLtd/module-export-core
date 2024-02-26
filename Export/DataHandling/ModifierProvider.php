@@ -36,6 +36,7 @@ class ModifierProvider
         \Amasty\ExportCore\Export\DataHandling\FieldModifier\CapitalizeEachWord::class,
         \Amasty\ExportCore\Export\DataHandling\FieldModifier\Strip::class,
         \Amasty\ExportCore\Export\DataHandling\FieldModifier\Replace::class,
+        \Amasty\ExportCore\Export\DataHandling\FieldModifier\FullMatchReplace::class,
         \Amasty\ExportCore\Export\DataHandling\FieldModifier\ReplaceFirst::class,
         \Amasty\ExportCore\Export\DataHandling\FieldModifier\ReplaceTextWrapping::class,
         \Amasty\ExportCore\Export\DataHandling\FieldModifier\DefaultValue::class,

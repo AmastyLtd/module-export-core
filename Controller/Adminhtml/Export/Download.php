@@ -55,19 +55,22 @@ class Download extends \Magento\Backend\App\Action
                 && $process->getStatus() === Process::STATUS_SUCCESS
                 && $exportResult->getResultFileName()
             ) {
+                $tmpFilename = $this->tmp->getResultTempFileName($process->getIdentity());
                 $tempDirectory = $this->tmp->getTempDirectory($process->getIdentity());
-                if (!$tempDirectory->stat($this->tmp->getResultTempFileName($process->getIdentity()))['size']) {
+                $absolutePath = $tempDirectory->getAbsolutePath($tmpFilename);
+                if (!$this->tmp->getTempDirectory()->isExist($absolutePath)
+                    || !$tempDirectory->stat($tmpFilename)['size']
+                ) {
                     $this->messageManager->addErrorMessage(__('Export File is empty'));
 
                     return $this->resultRedirectFactory->create()->setRefererUrl();
                 }
 
-                $tmpFilename = $this->tmp->getResultTempFileName($process->getIdentity());
                 $this->fileFactory->create(
                     $exportResult->getResultFileName(),
                     [
                         'type' => 'filename',
-                        'value' => $tempDirectory->getAbsolutePath($tmpFilename)
+                        'value' => $absolutePath
                     ],
                     \Magento\Framework\App\Filesystem\DirectoryList::VAR_DIR,
                     'application/octet-stream',

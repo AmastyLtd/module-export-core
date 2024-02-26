@@ -42,6 +42,7 @@ class Meta implements FilterMetaInterface
             ['label' => __('greater than'), 'value' => 'gt'],
             ['label' => __('less than'), 'value' => 'lt'],
             ['label' => __('like'), 'value' => 'like'],
+            ['label' => __('not like'), 'value' => 'nlike'],
             ['label' => __('is null'), 'value' => 'null'],
             ['label' => __('is not null'), 'value' => 'notnull'],
             ['label' => __('is one of'), 'value' => 'in'],

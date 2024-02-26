@@ -27,6 +27,15 @@ define([
             lastSortableData: [],
             sortOrders: {},
             templates: {
+                buttons: [
+                    {
+                        text: 'Add Static Field',
+                        class: 'amexportcore-button -brown',
+                        callback: (parent) => {
+                            parent.initStaticField({})
+                        }
+                    }
+                ],
                 staticField: 'Amasty_ExportCore/fields/static-field',
                 field: 'Amasty_ExportCore/fields/field'
             },
@@ -146,12 +155,7 @@ define([
                 JSON.stringify(this.getProviderData(this.dataScope, this.dataProvider()))
             );
 
-            this.elems.each(function (elem) {
-                if (!elem.isStatic) {
-                    elem.source.remove(elem.dataScope);
-                    elem.destroy();
-                }
-            });
+            this.destroyCheckedField();
 
             if (_.isObject(this.lastSortableData) && !_.isArray(this.lastSortableData)) {
                 this.lastSortableData = Object.values(this.lastSortableData);
@@ -252,6 +256,23 @@ define([
             if (this.elems().length === this.getCheckedLength()) {
                 this.isShowStatic(false);
             }
+        },
+
+        destroyCheckedField: function () {
+            this.elems.each(function (elem) {
+                if (!elem.isStatic) {
+                    elem.source.remove(elem.dataScope);
+                    elem.destroy();
+                }
+            });
+        },
+
+        getStaticFields: function () {
+            return this.elems().filter((item) => !!item.isStatic);
+        },
+
+        getCheckedFields: function () {
+            return this.elems().filter((item) => !item.isStatic);
         }
     });
 });

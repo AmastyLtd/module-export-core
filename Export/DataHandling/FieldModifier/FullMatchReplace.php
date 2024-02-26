@@ -8,14 +8,16 @@ declare(strict_types=1);
  * @package Export Core for Magento 2 (System)
  */
 
-namespace Amasty\ExportCore\Export\DataHandling\FieldModifier\Number;
+namespace Amasty\ExportCore\Export\DataHandling\FieldModifier;
 
 use Amasty\ExportCore\Api\Config\Profile\FieldInterface;
 use Amasty\ExportCore\Api\Config\Profile\ModifierInterface;
+use Amasty\ExportCore\Api\FieldModifier\FieldModifierInterface;
+use Amasty\ExportCore\Export\DataHandling\AbstractModifier;
 use Amasty\ExportCore\Export\DataHandling\ModifierProvider;
 use Amasty\ExportCore\Export\Utils\Config\ArgumentConverter;
 
-class Modulo extends AbstractNumberModifier
+class FullMatchReplace extends AbstractModifier implements FieldModifierInterface
 {
     /**
      * @var ArgumentConverter
@@ -28,14 +30,15 @@ class Modulo extends AbstractNumberModifier
         $this->argumentConverter = $argumentConverter;
     }
 
-    public function transform($value)
+    public function transform($value): string
     {
-        if (!isset($this->config['input_value'])) {
-            return $value;
+        if (!isset($this->config['from_input_value'])
+            || $this->config['from_input_value'] != $value
+        ) {
+            return $value ?? '';
         }
-        $this->validateInput($value);
 
-        return floor((float)$value) % floor((float)$this->config['input_value']);
+        return $this->config['to_input_value'] ?? '';
     }
 
     public function getValue(ModifierInterface $modifier): array
@@ -52,25 +55,28 @@ class Modulo extends AbstractNumberModifier
     public function prepareArguments(FieldInterface $field, $requestData): array
     {
         $arguments = [];
-        if (!empty($requestData['value']['input_value'])) {
-            $arguments = $this->argumentConverter->valueToArguments(
-                (string)$requestData['value']['input_value'],
-                'input_value',
-                'string'
-            );
+        $argumentNames = ['from_input_value', 'to_input_value'];
+        foreach ($argumentNames as $argumentName) {
+            if (isset($requestData['value'][$argumentName])) {
+                $arguments[] = $this->argumentConverter->valueToArguments(
+                    (string)$requestData['value'][$argumentName],
+                    $argumentName,
+                    'string'
+                );
+            }
         }
 
-        return $arguments;
+        return array_merge([], ...$arguments);
     }
 
     public function getGroup(): string
     {
-        return ModifierProvider::NUMERIC_GROUP;
+        return ModifierProvider::TEXT_GROUP;
     }
 
     public function getLabel(): string
     {
-        return __('Modulo')->getText();
+        return __('Full Match Replace')->getText();
     }
 
     public function getJsConfig(): array
@@ -78,7 +84,7 @@ class Modulo extends AbstractNumberModifier
         return [
             'component' => 'Amasty_ExportCore/js/fields/modifier',
             'template' => 'Amasty_ExportCore/fields/modifier',
-            'childTemplate' => 'Amasty_ExportCore/fields/1input-modifier',
+            'childTemplate' => 'Amasty_ExportCore/fields/2inputs-modifier',
             'childComponent' => 'Amasty_ExportCore/js/fields/modifier-field'
         ];
     }

@@ -36,9 +36,11 @@ class Filter implements FilterInterface
         if (!$config) {
             return;
         }
+
         $value = $config->getValue();
         switch ($filter->getCondition()) {
             case 'like':
+            case 'nlike':
                 $value = '%' . $value . '%';
                 break;
             case 'in':
@@ -46,6 +48,7 @@ class Filter implements FilterInterface
                 $value = explode(PHP_EOL, $value);
                 break;
         }
+
         $collection->addFieldToFilter(
             $filter->getField(),
             [$filter->getCondition() => $value]

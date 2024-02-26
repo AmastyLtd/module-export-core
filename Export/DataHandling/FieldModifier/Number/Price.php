@@ -10,13 +10,11 @@ declare(strict_types=1);
 
 namespace Amasty\ExportCore\Export\DataHandling\FieldModifier\Number;
 
-use Amasty\ExportCore\Api\FieldModifier\FieldModifierInterface;
-use Amasty\ExportCore\Export\DataHandling\AbstractModifier;
 use Amasty\ExportCore\Export\DataHandling\ModifierProvider;
 use Magento\Framework\Pricing\Helper\Data;
 use Magento\Store\Model\StoreManagerInterface;
 
-class Price extends AbstractModifier implements FieldModifierInterface
+class Price extends AbstractNumberModifier
 {
     /**
      * @var Data
@@ -40,6 +38,8 @@ class Price extends AbstractModifier implements FieldModifierInterface
 
     public function transform($value)
     {
+        $this->validateInput($value);
+
         return strip_tags($this->priceHelper->currencyByStore($value, $this->storeManager->getStore()));
     }
 

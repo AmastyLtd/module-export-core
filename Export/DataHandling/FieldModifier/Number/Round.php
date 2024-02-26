@@ -12,12 +12,10 @@ namespace Amasty\ExportCore\Export\DataHandling\FieldModifier\Number;
 
 use Amasty\ExportCore\Api\Config\Profile\FieldInterface;
 use Amasty\ExportCore\Api\Config\Profile\ModifierInterface;
-use Amasty\ExportCore\Api\FieldModifier\FieldModifierInterface;
-use Amasty\ExportCore\Export\DataHandling\AbstractModifier;
 use Amasty\ExportCore\Export\DataHandling\ModifierProvider;
 use Amasty\ExportCore\Export\Utils\Config\ArgumentConverter;
 
-class Round extends AbstractModifier implements FieldModifierInterface
+class Round extends AbstractNumberModifier
 {
     /**
      * @var ArgumentConverter
@@ -35,8 +33,9 @@ class Round extends AbstractModifier implements FieldModifierInterface
         if (!isset($this->config['input_value'])) {
             return $value;
         }
+        $this->validateInput($value);
 
-        return round($value, (int)$this->config['input_value']);
+        return round((float)$value, (int)$this->config['input_value']);
     }
 
     public function getValue(ModifierInterface $modifier): array

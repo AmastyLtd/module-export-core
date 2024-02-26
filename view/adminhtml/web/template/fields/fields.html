@@ -12,11 +12,9 @@
         </tr>
     </thead>
     <tbody class="amexportcore-fields-tbody" data-amexportcore-js="amexportcore-fields-tbody" afterRender="initSortable.bind($data, $element)">
-    <!-- ko foreach: $data.elems() -->
-        <!-- ko ifnot: $data.isStatic -->
+        <!-- ko foreach: getCheckedFields() -->
             <!--ko template: getTemplate()--><!-- /ko -->
         <!-- /ko -->
-    <!-- /ko -->
     </tbody>
 </table>
 <!-- /ko -->
@@ -30,16 +28,25 @@
     </tr>
     </thead>
     <tbody>
-        <!-- ko foreach: $data.elems() -->
-            <!-- ko if: $data.isStatic -->
+        <!-- ko foreach: getStaticFields() -->
             <!--ko template: getTemplate()--><!-- /ko -->
-            <!-- /ko -->
         <!-- /ko -->
     </tbody>
 </table>
 <!-- /ko -->
+
+<!-- ko if: templates.mergedField -->
+    <!--ko template: templates.mergedField.table --><!-- /ko -->
+<!-- /ko -->
+
 <!-- ko if: checkedFields().length || elems().length -->
 <div class="amexportcore-button-container">
-    <button class="amexportcore-button -brown" data-bind="i18n: 'Add Static Field', click: initStaticField.bind($data)"></button>
+    <!-- ko foreach: { data: templates.buttons, as: 'button' } -->
+        <button data-bind="
+                    i18n: button.text,
+                    class: button.class,
+                    click: () => button.callback($parent)">
+        </button>
+    <!-- /ko -->
 </div>
 <!-- /ko -->
