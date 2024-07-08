@@ -1,12 +1,15 @@
 # Export Core by Amasty
-<h3>The export core is a part of the full Import and Export solution. Install together with the <a href="https://github.com/AmastyLtd/module-import-core" target="_blank">Import Core</a> and <a href="https://github.com/AmastyLtd/module-import-export-core" target="_blank">Import\Export Core</a> to see the full scope of data transfer features between multiple platforms This free package has the same code and architecture as the original paid <a href="https://amasty.com/import-and-export-for-magento-2.html" target="_blank">Import and Export for Magento 2</a> extension but with the core options only. The package can be used for manual data exporting. See the full scope of automatization features and ready-made entities available in the paid version <a href="https://export-extensions-m2.magento-demo.amasty.com/admin/amorderimport/profile/index/" target="_blank">in this demo</a> or <a href="https://calendly.com/yuliya-simakovich/book-a-demo" target="_blank">book a live demo</a> with the Amasty team to get a consultation in real-time.</h3>
+<h3>Note:  This free solution version is provided to allow you to evaluate our code quality. However, it does not include ready-made entities such as products, orders, and customers, which are essential for utilizing the import/export functionality. To execute exports, you will need to either create these entities yourself if you have the relevant skills or purchase the full solution version on our website. </h3>
+<p>The export core is a part of the full Import and Export solution. Install together with the <a href="https://github.com/AmastyLtd/module-import-core" target="_blank">Import Core</a> and <a href="https://github.com/AmastyLtd/module-import-export-core" target="_blank">Import\Export Core</a> to see the full scope of data transfer features between multiple platforms This free package has the same code and architecture as the original paid <a href="https://amasty.com/import-and-export-for-magento-2.html" target="_blank">Import and Export for Magento 2</a> extension but with the core options only. The package can be used for manual data exporting. See the full scope of automatization features and ready-made entities available in the paid version <a href="https://export-extensions-m2.magento-demo.amasty.com/admin/amorderimport/profile/index/" target="_blank">in this demo</a> or <a href="https://calendly.com/yuliya-simakovich/book-a-demo" target="_blank">book a live demo</a> with the Amasty team to get a consultation in real-time.</p>
 
-![164422017-b74751b7-9afc-47f8-9ef1-8533f327f7af](https://user-images.githubusercontent.com/104132415/194509327-de30b3e2-feea-430a-a423-e85f713143cb.png)
+
+![import-and-export-premium-key-features](https://github.com/AmastyLtd/module-export-core/assets/104132415/e8194adb-954e-4bb3-9d0e-579c882e696e)
+
 
 The paid version has Lite, Pro and Premium packages. <a href="https://amasty.com/import-and-export-for-magento-2.html#choose_option" target="_blank">Visit our website</a> to discover pricing plans available. A free package is a part of the Lite version of the full <a href="https://amasty.com/import-and-export-for-magento-2.html" target="_blank">Import and Export for Magento 2</a> extension, but without ready-made entities for migration.
 
 <h2>What is this package for?</h2>
-<p>Export Core is a multipurpose tool for data transferring from Magento 2. The solution has nothing in common with the native Magento import and export since it has a brand new architecture and code structure. Keep in mind that a free core does not include ready-made entities (e.g. Orders, Products) but the code structure lets you develop compatibility with any entity you need. </p>
+<p>Export Core is a multipurpose tool for data transferring from Magento 2. The solution has nothing in common with the native Magento import and export since it has a brand new architecture and code structure. Keep in mind that a <b>free core does not include ready-made entities</b> (e.g. Orders, Products) but the code structure lets you develop compatibility with any entity you need. </p>
 <h2>Free version options included</h2>
 <p>This package lets you:</p>
 <ul>
@@ -27,7 +30,7 @@ The paid version has Lite, Pro and Premium packages. <a href="https://amasty.com
 <br>
 <p>See more details in the <a href="https://amasty.com/docs/doku.php?id=magento_2:composer_user_guide" target="_blank">Composer User Guide</a>. </p>
 <h2>Export Configuration & Flow</h2>
-<p>To run data migration, you need to create compatibility with the required entity. Let’s see how it works in the free version using the example of the ‘Order’ entity.</p>
+<p><b>To export data, you need to create the required entity or entities (e.g. products, orders, customers) first</b>. Let’s see how it works in the free version using the example of the ‘Order’ entity.</p>
 <h3>Export Configuration </h3>
 <p>Navigate to the <b>Export</b> tab. Here you can choose the entity to export. For instance, we can export order items.</p>
 
@@ -108,7 +111,9 @@ The paid version has Lite, Pro and Premium packages. <a href="https://amasty.com
 <h2>Full Version Overview & Pricing Plans</h2>
 <p>The full solution has <a href="https://amasty.com/import-and-export-for-magento-2.html#choose_option" target="_blank">3 pricing plans</a>: Lite, Pro and Premium. Unlike the free package, full versions let you import and export orders, products, customers, CMS blocks and other entities without additional development.</p> 
 
-![164440741-77997267-6ebb-4bde-ad1f-0d8653f77fdc](https://user-images.githubusercontent.com/104132415/194514095-0025fa14-e30e-47d8-998f-94c67d732239.png)
+
+![import-export-tariff-plans](https://github.com/AmastyLtd/module-export-core/assets/104132415/088eb737-438a-4431-8396-205cd311159b)
+
 
 
 <h3>Key features of each solution:</h3>
@@ -126,7 +131,7 @@ The paid version has Lite, Pro and Premium packages. <a href="https://amasty.com
 <li><b>3 entities:</b> order, product, customer</li>
 <li><b>6 file formats:</b> CSV, XML, ODS, XLSX, Template, JSON</li>
 <li><b>9 file sources:</b> File Upload, FTP/SFTP, Direct URL, Google Sheets, REST API Endpoint, Dropbox, Google Drive, Email for export</li>
-<li><b>Export history</b></li>
+<li><b>Import/export history</b></li>
  </ul>
 <h4>Premium </h4>
 <ul>
@@ -141,7 +146,8 @@ The paid version has Lite, Pro and Premium packages. <a href="https://amasty.com
  </ul>
 <p class="text-align: center"><a href="https://amasty.com/import-and-export-for-magento-2.html">Import and Export Premium</a></p>
 
-![key-entities-new](https://user-images.githubusercontent.com/104132415/164442050-b760b264-419f-4630-872b-4d813c132118.png)
+![import-and-export-premium-key-features](https://github.com/AmastyLtd/module-export-core/assets/104132415/a72461e2-ba4a-423b-a586-9e561dd0a871)
+
 
 If you need a specific entity, but with the automation options, you can purchase the main ones separately:  
 <br>
