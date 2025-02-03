@@ -47,12 +47,12 @@
                             <item name="class" xsi:type="string">Amasty\ExportCore\Export\Action\Export\DataHandling\StaticFieldsAction</item>
                             <item name="sortOrder" xsi:type="number">30</item>
                         </item>
-                        <item name="mapping" xsi:type="array">
-                            <item name="class" xsi:type="string">Amasty\ExportCore\Export\Action\Export\Mapping\MappingAction</item>
-                            <item name="sortOrder" xsi:type="number">30</item>
-                        </item>
                         <item name="virtualFieldGenerators" xsi:type="array">
                             <item name="class" xsi:type="string">Amasty\ExportCore\Export\Action\Export\VirtualFields\VirtualFieldsAction</item>
+                            <item name="sortOrder" xsi:type="number">30</item>
+                        </item>
+                        <item name="mapping" xsi:type="array">
+                            <item name="class" xsi:type="string">Amasty\ExportCore\Export\Action\Export\Mapping\MappingAction</item>
                             <item name="sortOrder" xsi:type="number">40</item>
                         </item>
                         <item name="data-cleanup" xsi:type="array">

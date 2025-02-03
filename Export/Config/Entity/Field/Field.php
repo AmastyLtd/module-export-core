@@ -96,6 +96,8 @@ class Field extends DataObject implements FieldInterface
     public function setRemove($remove)
     {
         $this->setData(self::REMOVE, $remove);
+
+        return $this;
     }
 
     public function getRemove()

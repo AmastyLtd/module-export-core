@@ -24,6 +24,7 @@ class ActionConfigBuilder
     public const IS_PRESELECTED = 'preselected';
     public const EAV_ENTITY_TYPE_CODE = 'eavEntityType';
     public const OPTION_SOURCE = 'optionSource';
+    public const IDENTITY = 'identity';
 
     /**
      * @var ActionInterfaceFactory

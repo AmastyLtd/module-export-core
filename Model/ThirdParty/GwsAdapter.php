@@ -39,10 +39,11 @@ class GwsAdapter
         return class_exists(Role::class) && $this->moduleManager->isEnabled('Magento_AdminGws');
     }
 
+    // @phpstan-ignore-next-line
     public function getRole(): ?Role
     {
         if ($this->isEnabled()) {
-            return $this->objectManager->get(Role::class);
+            return $this->objectManager->get(Role::class); //// @phpstan-ignore class.notFound
         }
 
         return null;

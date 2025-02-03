@@ -66,7 +66,7 @@ class Download extends \Magento\Backend\App\Action
                     return $this->resultRedirectFactory->create()->setRefererUrl();
                 }
 
-                $this->fileFactory->create(
+                return $this->fileFactory->create(
                     $exportResult->getResultFileName(),
                     [
                         'type' => 'filename',
@@ -76,8 +76,6 @@ class Download extends \Magento\Backend\App\Action
                     'application/octet-stream',
                     $tempDirectory->stat($tmpFilename)['size']
                 );
-
-                return null;
             }
         }
 

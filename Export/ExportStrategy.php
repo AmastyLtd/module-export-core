@@ -20,6 +20,7 @@ use Amasty\ExportCore\Exception\JobDelegatedException;
 use Amasty\ExportCore\Exception\JobDoneException;
 use Amasty\ExportCore\Exception\JobTerminatedException;
 use Amasty\ExportCore\Export\Config\EntityConfigProvider;
+use Amasty\ExportCore\Model\Process\Process;
 use Amasty\ImportExportCore\Parallelization\JobManager;
 use Amasty\ImportExportCore\Parallelization\JobManagerFactory;
 use Amasty\ExportCore\Export\Parallelization\ResultMerger;
@@ -127,6 +128,7 @@ class ExportStrategy
 
     public function run(ProfileConfigInterface $profileConfig, string $processIdentity): ExportResultInterface
     {
+        $this->processRepository->updateProcessStatusByIdentity($processIdentity, Process::STATUS_STARTING);
         if ($profileConfig->isUseMultiProcess() && JobManager::isAvailable()) {
             $exportProcess = null;
             /** @var JobManager $jobManager */
@@ -140,16 +142,14 @@ class ExportStrategy
             $this->jobManager = null;
         }
 
-        /** @var ExportProcessInterface $exportProcess */
         $exportProcess = $this->exportProcessFactory->create([
             'identity' => $processIdentity,
             'profileConfig' => $profileConfig,
             'entityConfig' => $this->entityConfigProvider->get($profileConfig->getEntityCode()),
             'jobManager' => $this->jobManager
         ]);
-        $this->eventManager->dispatch('amexport_before_run', ['exportProcess' => $exportProcess]);
         $this->registerErrorCatching($exportProcess);
-
+        $this->eventManager->dispatch('amexport_before_run', ['exportProcess' => $exportProcess]);
         $exportResult = $exportProcess->getExportResult();
 
         foreach ($this->getSortedActionGroups() as $groupName => $actionsGroup) {
@@ -282,9 +282,7 @@ class ExportStrategy
                     continue;
                 }
             }
-            unset($action['class']);
-            unset($action['sortOrder']);
-            unset($action['entities']);
+            unset($action['class'], $action['sortOrder'], $action['entities']);
 
             if (!isset($result[$sortOrder])) {
                 $result[$sortOrder] = [];
@@ -342,21 +340,45 @@ class ExportStrategy
     {
         //phpcs:ignore
         \register_shutdown_function(function () use ($exportProcess) {
-            if (error_get_last() === null || (error_get_last()['type'] ?? null) != 1) {
+            $currentStatus = $this->processRepository->checkProcessStatus($exportProcess->getIdentity());
+            if ($currentStatus === Process::STATUS_SUCCESS || $exportProcess->isChildProcess()) {
                 return;
             }
-            if ($this->appState->getMode() === State::MODE_PRODUCTION) {
-                $this->logger->critical(error_get_last()['message']);
-                $exportProcess->addCriticalMessage(
-                    __('Something went wrong while export. Please review logs')
-                );
-            } else {
-                $exportProcess->addCriticalMessage(
-                    error_get_last()['message'] ?? __('Something went wrong while export')
-                );
+            $errorMsg = __(
+                'The system process failed. For an error details please make sure that Debug mode is enabled '
+                . 'and see %1',
+                ConfigProvider::DEBUG_LOG_PATH
+            )->render();
+
+            if ($currentStatus === Process::STATUS_FAILED && $exportProcess->getExportResult() !== null) {
+                $hasErrorMessage = false;
+                foreach ($exportProcess->getExportResult()->getMessages() as $message) {
+                    if (in_array( //error was already processed
+                        $message['type'],
+                        [ExportResultInterface::MESSAGE_CRITICAL, ExportResultInterface::MESSAGE_ERROR],
+                        true
+                    )) {
+                        $hasErrorMessage = true;
+                        break;
+                    }
+                }
+                if ($hasErrorMessage) {
+                    $exportProcess->getExportResult()->terminateExport(true);
+                    $this->finalizeProcess($exportProcess);
+
+                    return;
+                }
+
+                if (error_get_last() !== null && (error_get_last()['type'] ?? null) === 1) {
+                    if ($this->appState->getMode() === State::MODE_PRODUCTION) {
+                        $errorMsg = __('Something went wrong while export. Please review logs')->render();
+                        $this->logger->critical(error_get_last()['message'] ?? '');
+                    } else {
+                        $errorMsg = error_get_last()['message'] ?? __('Something went wrong while export')->render();
+                    }
+                }
             }
-            $exportProcess->getExportResult()->terminateExport(true);
-            $this->finalizeProcess($exportProcess);
+            $this->processRepository->markAsFailed($exportProcess->getIdentity(), $errorMsg);
         });
 
         return $this;

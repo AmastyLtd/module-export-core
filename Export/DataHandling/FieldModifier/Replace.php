@@ -36,7 +36,7 @@ class Replace extends AbstractModifier implements FieldModifierInterface
             || !is_string($this->config['from_input_value'])
             || !is_string($value)
         ) {
-            return $value;
+            return (string)$value;
         }
         $replaceTo = $this->config['to_input_value'] ?? '';
 

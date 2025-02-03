@@ -166,8 +166,10 @@ class ProcessRepository
             /** @var ExportResultInterface $result */
             $result = $this->exportResultFactory->create();
             $result->unserialize($process->getExportResult());
+            if ($errorMessage) {
+                $result->logMessage(ExportResultInterface::MESSAGE_CRITICAL, $errorMessage);
+            }
             $result->terminateExport(true);
-            $process->addCriticalMessage($errorMessage);
             $serializedResult = $result->serialize();
         } else {
             $serializedResult = null;
@@ -187,7 +189,6 @@ class ProcessRepository
             $identity = $this->generateNewIdentity();
         }
 
-        /** @var Process $process */
         $process = $this->processFactory->create();
         $process
             ->setIdentity($identity)
@@ -208,6 +209,16 @@ class ProcessRepository
         $this->processResource->load($process, $identity, Process::IDENTITY);
 
         return (string)$process->getStatus();
+    }
+
+    public function updateProcessStatusByIdentity(string $identity, string $status): void
+    {
+        $process = $this->processFactory->create();
+        $this->processResource->load($process, $identity, Process::IDENTITY);
+        if ($process->getId()) {
+            $process->setStatus($status);
+            $this->processResource->save($process);
+        }
     }
 
     public function generateNewIdentity()

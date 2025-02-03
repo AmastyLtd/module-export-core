@@ -283,6 +283,16 @@
                     <xs:attribute name="preselected" type="xs:boolean" default="true"/>
                 </xs:complexType>
             </xs:element>
+            <xs:element name="attributeSetId2attributeSetLabel" minOccurs="0">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="arguments" type="argumentsType" minOccurs="0" />
+                    </xs:sequence>
+                    <xs:attribute name="class" default="Amasty\ExportCore\Export\DataHandling\FieldModifier\Attribute\SetId2SetName" type="modelName" />
+                    <xs:attribute name="name" default="Convert Attribute Set Id to Attribute Set Label" />
+                    <xs:attribute name="preselected" type="xs:boolean" default="false"/>
+                </xs:complexType>
+            </xs:element>
             <xs:element name="custom" minOccurs="0" maxOccurs="unbounded">
                 <xs:complexType>
                     <xs:sequence>

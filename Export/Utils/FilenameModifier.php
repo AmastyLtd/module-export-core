@@ -8,9 +8,22 @@
 namespace Amasty\ExportCore\Export\Utils;
 
 use Amasty\ExportCore\Api\ExportProcessInterface;
+use Magento\Framework\App\ObjectManager;
+use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 
 class FilenameModifier
 {
+    /**
+     * @var TimezoneInterface
+     */
+    private $timezone;
+
+    public function __construct(
+        TimezoneInterface $timezone = null //todo: move to not optional
+    ) {
+        $this->timezone = $timezone ?? ObjectManager::getInstance()->get(TimezoneInterface::class);
+    }
+
     public function modify(string $filename, ExportProcessInterface $exportProcess): string
     {
         return preg_replace_callback(
@@ -29,7 +42,7 @@ class FilenameModifier
                 if (empty($match['modifier'])) {
                     $match['modifier'] = DATE_ATOM;
                 }
-                $result = date($match['modifier']);
+                $result = $this->timezone->date()->format($match['modifier']);
                 break;
             default:
                 $result = '';

@@ -90,7 +90,7 @@ class AfterFilterConditionConverter
     private function convertDate(string $date, int $hour = 0, int $minute = 0, int $second = 0): ?int
     {
         try {
-            $dateObj = $this->localeDate->date($date, null, false);
+            $dateObj = $this->localeDate->date($date, ConditionConverter::DEFAULT_SYSTEM_LOCALE, false);
             $dateObj->setTime($hour, $minute, $second);
 
             return $dateObj->getTimestamp();

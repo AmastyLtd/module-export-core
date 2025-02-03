@@ -15,6 +15,8 @@ use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 
 class ConditionConverter
 {
+    public const DEFAULT_SYSTEM_LOCALE = 'en_US';
+
     /**
      * @var TimezoneInterface
      */
@@ -99,7 +101,7 @@ class ConditionConverter
     private function convertDate($date, int $hour = 0, int $minute = 0, int $second = 0): ?string
     {
         try {
-            $dateObj = $this->localeDate->date($date, null, false);
+            $dateObj = $this->localeDate->date($date, self::DEFAULT_SYSTEM_LOCALE, false);
             $dateObj->setTime($hour, $minute, $second);
 
             return $dateObj->format(DateTime::DATETIME_PHP_FORMAT);

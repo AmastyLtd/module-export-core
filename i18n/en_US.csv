@@ -8,9 +8,10 @@ Export,Export
 "Entity ""%1"" already exists.","Entity ""%1"" already exists."
 "Fields Class should return ""%1"" interface result","Fields Class should return ""%1"" interface result"
 Append,Append
-"Attribute Set Id To Attribute Set Name","Attribute Set Id To Attribute Set Name"
+"Attribute Set ID to Set Name","Attribute Set ID to Set Name"
 Capitalize,Capitalize
 "Capitalize Each Word","Capitalize Each Word"
+"Stock Id To Stock Name","Stock Id To Stock Name"
 "Category Entity Id To Names Path","Category Entity Id To Names Path"
 "Date Format","Date Format"
 "Default Value","Default Value"
@@ -33,6 +34,7 @@ Plus,Plus
 "Round To","Round To"
 Truncate,Truncate
 Prepend,Prepend
+"Product ID To Product SKU","Product ID To Product SKU"
 Replace,Replace
 "Replace First","Replace First"
 "Replace Text Wrapping","Replace Text Wrapping"
@@ -48,6 +50,7 @@ Trim,Trim
 "Text Modifiers","Text Modifiers"
 "Numeric Modifiers","Numeric Modifiers"
 "Date Modifiers","Date Modifiers"
+"The system process failed. For an error details please make sure that Debug mode is enabled and see %1","The system process failed. For an error details please make sure that Debug mode is enabled and see %1"
 "Something went wrong while export. Please review logs","Something went wrong while export. Please review logs"
 "Something went wrong while export","Something went wrong while export"
 "File Path","File Path"
@@ -126,7 +129,6 @@ Footer,Footer
 "Unable to remove batch. Error: %1","Unable to remove batch. Error: %1"
 "Process Started","Process Started"
 "The export process failed to launch. Please, check your PHP executable path or see log for more details.","The export process failed to launch. Please, check your PHP executable path or see log for more details."
-"The system process failed. For an error details please make sure that Debug mode is enabled and see %1","The system process failed. For an error details please make sure that Debug mode is enabled and see %1"
 Continue,Continue
 Download,Download
 "Regenerate File","Regenerate File"
@@ -153,6 +155,8 @@ Add,Add
 Advanced,Advanced
 "Enable Debug Mode","Enable Debug Mode"
 "Enabling this setting will allow detecting errors and display detailed information about them including server errors. Also useful error information can be found in var/log/amasty_export_debug.log.","Enabling this setting will allow detecting errors and display detailed information about them including server errors. Also useful error information can be found in var/log/amasty_export_debug.log."
+"Process Status Check Mode","Process Status Check Mode"
+"If you encounter issues with tracking process status and unexpected errors during import or export in a multi-node environment, please select the 'Statuses' option in this setting.","If you encounter issues with tracking process status and unexpected errors during import or export in a multi-node environment, please select the 'Statuses' option in this setting."
 "Enable Export without Memory Limit","Enable Export without Memory Limit"
 "Enable this setting if export process terminates because of the memory limit exceed.","Enable this setting if export process terminates because of the memory limit exceed."
 "System Settings","System Settings"
