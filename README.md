@@ -159,4 +159,23 @@ If you need a specific entity, but with the automation options, you can purchase
 -> <a href="https://amasty.com/export-customers-for-magento-2.html" target="_blank">Export Customers</a><br>
 <h2>Troubleshooting </h2>
 <p><i>Have any questions? Feel free to <a href="https://amasty.com/contacts/">contact us</a>!</i></p> 
-<p><i>Want us to develop a custom integration? <a href="https://amasty.com/magento-integration-service.html">Find the details here</a>.</i></p>  
+<p><i>Want us to develop a custom integration? <a href="https://amasty.com/magento-integration-service.html">Find the details here</a>.</i></p> 
+
+<h2>Other Amasty extensions</h2>
+-> <a href="https://amasty.com/xml-google-sitemap-for-magento-2.html" target="_blank">XML Google® Sitemap for Magento 2</a><br>
+-> <a href="https://amasty.com/worldline-payments-for-magento-2.html" target="_blank">Wordline Payments for Magento 2</a><br>
+-> <a href="https://amasty.com/visual-merchandiser-for-magento-2.html" target="_blank">Visual Merchandiser for Magento 2</a><br>
+-> <a href="https://amasty.com/url-rewrites-regenerator-for-magento-2.html" target="_blank">URL Rewrites Regenerator for Magento 2</a><br>
+-> <a href="https://amasty.com/unique-product-url-for-magento-2.html" target="_blank">SEO URL Rewrite for Magento 2</a><br>
+-> <a href="https://amasty.com/two-factor-authentication-for-magento-2.html" target="_blank">Two-Factor Authentication for Magento 2</a><br>
+-> <a href="https://amasty.com/twitter-pixel-for-magento-2.html" target="_blank">X (Twitter) Pixel for Magento 2</a><br>
+-> <a href="https://amasty.com/tik-tok-pixel-for-magento-2.html" target="_blank">TikTok Pixel for Magento 2</a><br>
+-> <a href="https://amasty.com/thank-you-page-for-magento-2.html" target="_blank">Thank You Page for Magento 2</a><br>
+-> <a href="https://amasty.com/subscriptions-recurring-payments-for-magento-2.html" target="_blank">Subscriptions & Recurring Payments for Magento 2</a><br>
+-> <a href="https://amasty.com/store-switcher-for-magento-2.html" target="_blank">Store Switcher for Magento 2</a><br>
+-> <a href="https://amasty.com/store-pickup-with-locator-for-magento-2.html" target="_blank">Store Pickup with Locator for Magento 2</a><br>
+-> <a href="https://amasty.com/store-pickup-for-magento-2.html" target="_blank">Store Pickup for Magento 2</a><br>
+-> <a href="https://amasty.com/store-locator-for-magento-2.html" target="_blank">Store Locator for Magento 2</a><br>
+-> <a href="https://amasty.com/special-promotions.html" target="_blank">Special Promotions</a><br>
+-> <a href="https://amasty.com/special-promotions-pro.html" target="_blank">Special Promotions Pro</a><br>
+-> <a href="https://amasty.com/single-step-checkout.html" target="_blank">One Step Checkout</a><br>
