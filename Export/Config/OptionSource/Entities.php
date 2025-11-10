@@ -27,7 +27,7 @@ class Entities implements OptionSourceInterface
 
     public function __construct(
         EntityConfigProvider $entityConfigProvider,
-        DemoEntitiesPool $demoEntitiesPool = null
+        ?DemoEntitiesPool $demoEntitiesPool = null
     ) {
         $this->entityConfigProvider = $entityConfigProvider;
         $this->demoEntitiesPool = $demoEntitiesPool ?? ObjectManager::getInstance()->get(DemoEntitiesPool::class);

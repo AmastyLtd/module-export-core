@@ -34,7 +34,7 @@ class Meta implements FilterMetaInterface
     public function __construct(
         ConfigInterfaceFactory $configFactory,
         Options $options,
-        GwsAdapter $gwsAdapter = null
+        ?GwsAdapter $gwsAdapter = null
     ) {
         $this->configFactory = $configFactory;
         $this->options = $options;

@@ -40,7 +40,7 @@ class PrepareCollectionAction implements ActionInterface
     public function __construct(
         CollectionPrepareFactory $collectionFactory,
         PrepareCollection $prepareCollection,
-        RestrictedStoresFiltersApplier $restrictedStoresFiltersApplier = null
+        ?RestrictedStoresFiltersApplier $restrictedStoresFiltersApplier = null
     ) {
         $this->collectionFactory = $collectionFactory;
         $this->prepareCollection = $prepareCollection;

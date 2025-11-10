@@ -20,6 +20,11 @@
 //  ----------------------------------------------
 
 & when (@media-common = true) {
+    //  Overriding magento behavior with menu titles hide for 1 column
+    .item-importcore .submenu-group-title {
+        display: block !important;
+    }
+
     .amexportcore-dynamic-rows {
         //  Override magento styles start
         & {

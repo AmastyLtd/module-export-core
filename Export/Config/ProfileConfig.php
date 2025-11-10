@@ -46,7 +46,7 @@ class ProfileConfig extends DataObject implements ProfileConfigInterface
     public function __construct(
         ProfileConfigExtensionInterfaceFactory $extensionAttributesFactory,
         array $data = [],
-        GwsAdapter $gwsAdapter = null
+        ?GwsAdapter $gwsAdapter = null
     ) {
         parent::__construct($data);
         $this->extensionAttributesFactory = $extensionAttributesFactory;

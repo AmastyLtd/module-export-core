@@ -17,8 +17,8 @@
                     </resource>
                 </resource>
                 <resource id="Magento_Backend::system">
-                    <resource id="Amasty_ExportCore::exportcore" title="Amasty Export" sortOrder="052416">
-                        <resource id="Amasty_ExportCore::export" title="Export" translate="title" sortOrder="15"/>
+                    <resource id="Amasty_ExportCore::exportcore" title="Amasty Export" sortOrder="16">
+                        <resource id="Amasty_ExportCore::export" title="Export" translate="title" sortOrder="10"/>
                     </resource>
                 </resource>
             </resource>

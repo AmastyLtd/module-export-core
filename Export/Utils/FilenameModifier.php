@@ -19,7 +19,7 @@ class FilenameModifier
     private $timezone;
 
     public function __construct(
-        TimezoneInterface $timezone = null //todo: move to not optional
+        ?TimezoneInterface $timezone = null //todo: move to not optional
     ) {
         $this->timezone = $timezone ?? ObjectManager::getInstance()->get(TimezoneInterface::class);
     }

@@ -15,7 +15,7 @@ use Amasty\ExportCore\Api\ExportProcessInterface;
 use Amasty\ExportCore\Api\Template\RendererInterface;
 use Amasty\ExportCore\Export\Config\EntityConfigProvider;
 use Amasty\ExportCore\Export\Utils\TmpFileManagement;
-use Amasty\ExportCore\Export\Template\Type\Csv\DataToCsvFactory;
+use Magento\Framework\App\ObjectManager;
 
 class Renderer implements RendererInterface
 {
@@ -35,11 +35,6 @@ class Renderer implements RendererInterface
      * @var TmpFileManagement
      */
     private $tmp;
-
-    /**
-     * @var EntityConfigProvider
-     */
-    private $entityConfigProvider;
 
     /**
      * @var int
@@ -66,20 +61,27 @@ class Renderer implements RendererInterface
      */
     private $convertRowToMergedList;
 
+    /**
+     * @var ExportHeaderBuilder
+     */
+    private $exportHeaderBuilder;
+
     public function __construct(
         DataToCsvFactory $dataToCsvFactory,
-        EntityConfigProvider $entityConfigProvider,
+        ?EntityConfigProvider $entityConfigProvider, // @deprecated
         ConfigInterfaceFactory $configFactory,
         TmpFileManagement $tmp,
         Utils\ConvertRowTo2DimensionalArray $convertRowTo2DimensionalArray,
-        Utils\ConvertRowToMergedList $convertRowToMergedList
+        Utils\ConvertRowToMergedList $convertRowToMergedList,
+        ?ExportHeaderBuilder $exportHeaderBuilder = null
     ) {
         $this->dataToCsvFactory = $dataToCsvFactory;
         $this->configFactory = $configFactory;
         $this->tmp = $tmp;
-        $this->entityConfigProvider = $entityConfigProvider;
         $this->convertRowTo2DimensionalArray = $convertRowTo2DimensionalArray;
         $this->convertRowToMergedList = $convertRowToMergedList;
+        $this->exportHeaderBuilder = $exportHeaderBuilder
+            ?? ObjectManager::getInstance()->get(ExportHeaderBuilder::class);
     }
 
     public function render(
@@ -103,10 +105,11 @@ class Renderer implements RendererInterface
 
             if (!$headerRendered) {
                 $this->headerStructure = $exportProcess->getExtensionAttributes()->getHelper()->getHeaderStructure();
-                $header = $this->getHeader(
+                $header = $this->exportHeaderBuilder->getHeader(
                     $this->headerStructure,
                     $exportProcess->getProfileConfig()->getFieldsConfig()->getMap() ?? '',
-                    $exportProcess->getProfileConfig()->getExtensionAttributes()->getCsvTemplate()->getPostfix()
+                    $exportProcess->getProfileConfig()->getExtensionAttributes()->getCsvTemplate()->getPostfix(),
+                    $exportProcess
                 );
                 $this->colsCount = count($header);
                 $resultTempFile->write($this->renderHeader($exportProcess, $header));
@@ -142,19 +145,13 @@ class Renderer implements RendererInterface
         );
     }
 
+    /**
+     * @deprecated Due to extension logic.
+     * @see \Amasty\ExportCore\Export\Template\Type\Csv\ExportHeaderBuilder::getHeader
+     */
     public function getHeader($row, $prefix = '', $postfix = ''): array
     {
-        $header = [];
-        foreach ($row as $key => $value) {
-            if (is_array($value)) {
-                //phpcs:ignore
-                $header = array_merge($header, $this->getHeader($value, $key, $postfix));
-            } else {
-                $header[] = (!empty($prefix) ? $prefix . $postfix : '') . $key;
-            }
-        }
-
-        return $header;
+        return $this->exportHeaderBuilder->getHeader($row, $prefix, $postfix);
     }
 
     public function getFileExtension(ExportProcessInterface $exportProcess): ?string

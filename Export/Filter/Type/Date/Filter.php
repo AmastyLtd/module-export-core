@@ -45,7 +45,7 @@ class Filter implements FilterInterface
         ConditionConverter $conditionConverter,
         AfterFilterApplier $afterFilterApplier,
         DateTime $dateTime,
-        AfterFilterConditionConverter $afterFilterConditionConverter = null
+        ?AfterFilterConditionConverter $afterFilterConditionConverter = null
     ) {
         $this->conditionConverter = $conditionConverter;
         $this->afterFilterApplier = $afterFilterApplier;

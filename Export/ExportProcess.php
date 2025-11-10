@@ -100,8 +100,8 @@ class ExportProcess implements ExportProcessInterface
         ExportResultInterfaceFactory $exportResultFactory,
         ProcessRepository $processRepository,
         string $identity,
-        ExportResultInterface $exportResult = null,
-        JobManager $jobManager = null
+        ?ExportResultInterface $exportResult = null,
+        ?JobManager $jobManager = null
     ) {
         $this->exportResult = $exportResult ?? $exportResultFactory->create();
         $this->jobManager = $jobManager;

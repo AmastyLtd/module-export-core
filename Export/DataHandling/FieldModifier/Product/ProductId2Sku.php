@@ -23,11 +23,6 @@ use Magento\Framework\EntityManager\MetadataPool;
 class ProductId2Sku extends AbstractModifier implements FieldModifierInterface
 {
     /**
-     * @var MetadataPool
-     */
-    private $metadataPool;
-
-    /**
      * @var ResourceConnection
      */
     private $resourceConnection;
@@ -42,6 +37,11 @@ class ProductId2Sku extends AbstractModifier implements FieldModifierInterface
      */
     private $identity;
 
+    /**
+     * @var array
+     */
+    private $skuToEntityMap = [];
+
     public function __construct(
         MetadataPool $metadataPool,
         ResourceConnection $resourceConnection,
@@ -49,10 +49,9 @@ class ProductId2Sku extends AbstractModifier implements FieldModifierInterface
         ArgumentConverter $argumentConverter
     ) {
         parent::__construct($config);
-        $this->metadataPool = $metadataPool;
         $this->resourceConnection = $resourceConnection;
         $this->argumentConverter = $argumentConverter;
-        $this->identity = $this->metadataPool->getMetadata(ProductInterface::class)->getLinkField();
+        $this->identity = $metadataPool->getMetadata(ProductInterface::class)->getLinkField();
     }
 
     public function getLabel(): string
@@ -94,11 +93,14 @@ class ProductId2Sku extends AbstractModifier implements FieldModifierInterface
 
     private function getSkuByProductIdentity(string $entityId, string $identity): string
     {
-        $connection = $this->resourceConnection->getConnection();
-        $select = $connection->select()
-            ->from($this->resourceConnection->getTableName('catalog_product_entity'), 'sku')
-            ->where($identity . ' = ?', $entityId);
+        if (!isset($this->skuToEntityMap[$identity][$entityId])) {
+            $connection = $this->resourceConnection->getConnection();
+            $select = $connection->select()
+                ->from($this->resourceConnection->getTableName('catalog_product_entity'), 'sku')
+                ->where($identity . ' = ?', $entityId);
+            $this->skuToEntityMap[$identity][$entityId] = (string)$connection->fetchOne($select);
+        }
 
-        return (string)$connection->fetchOne($select);
+        return $this->skuToEntityMap[$identity][$entityId];
     }
 }

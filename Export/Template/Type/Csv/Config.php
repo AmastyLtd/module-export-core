@@ -27,6 +27,7 @@ class Config extends DataObject implements ConfigInterface
     public const CHILD_ROW_SEPARATOR = 'child_row_separator';
     public const MAX_LINE_LENGTH = 'max_line_length';
     public const POSTFIX = 'postfix';
+    public const EXPORT_WITHOUT_ENTITY_KEYS = 'export_without_entity_keys';
 
     public function getSeparator(): ?string
     {
@@ -120,6 +121,20 @@ class Config extends DataObject implements ConfigInterface
     public function setDuplicateParentData(?bool $duplicate): ConfigInterface
     {
         $this->setData(self::DUPLICATE_PARENT_DATA, $duplicate);
+
+        return $this;
+    }
+
+    public function isExportWithoutEntityKeys(): ?bool
+    {
+        return $this->hasData(self::EXPORT_WITHOUT_ENTITY_KEYS)
+            ? (bool)$this->_getData(self::EXPORT_WITHOUT_ENTITY_KEYS)
+            : null;
+    }
+
+    public function setIsExportWithoutEntityKeys(?bool $isExportWithoutKeys): ConfigInterface
+    {
+        $this->setData(self::EXPORT_WITHOUT_ENTITY_KEYS, $isExportWithoutKeys);
 
         return $this;
     }

@@ -104,4 +104,16 @@ interface ConfigInterface
      * @return \Amasty\ExportCore\Export\Template\Type\Csv\ConfigInterface
      */
     public function setPostfix(?string $postfix): ConfigInterface;
+
+    /**
+     * @return bool|null
+     */
+    public function isExportWithoutEntityKeys(): ?bool;
+
+    /**
+     * @param bool|null $isExportWithoutKeys
+     *
+     * @return \Amasty\ExportCore\Export\Template\Type\Csv\ConfigInterface
+     */
+    public function setIsExportWithoutEntityKeys(?bool $isExportWithoutKeys): ConfigInterface;
 }

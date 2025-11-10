@@ -38,7 +38,7 @@ class TmpFileManagement
         $this->writeFactory = $writeFactory;
     }
 
-    public function getTempDirectory(string $processIdentity = null): DirectoryWriteInterface
+    public function getTempDirectory(?string $processIdentity = null): DirectoryWriteInterface
     {
         $tmpDir = $this->filesystem->getDirectoryWrite(DirectoryList::TMP);
         if (!$processIdentity) {
